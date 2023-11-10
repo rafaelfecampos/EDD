@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ListaDuplamenteEncadeada
+namespace ListaCircular
 {
-    public class ListaDuplamente
+    public class ListaCircu
     {
         private No primeiro = null;
         private No ultimo = null;
@@ -14,11 +14,13 @@ namespace ListaDuplamenteEncadeada
         #region Descritores
         public No Primeiro
         {
+            set { primeiro = value; }
             get { return primeiro; }
         }
 
         public No Ultimo
         {
+            set { ultimo = value; }
             get { return ultimo; }
         }
 
@@ -39,6 +41,7 @@ namespace ListaDuplamenteEncadeada
                 novo.Proximo = primeiro;
                 primeiro.Anterior = novo;
                 primeiro = novo;
+                primeiro.Anterior = ultimo;
             }
             this.tamanho++;
         }
@@ -54,6 +57,7 @@ namespace ListaDuplamenteEncadeada
                 ultimo.Proximo = novo;
                 novo.Anterior = ultimo;
                 ultimo = ultimo.Proximo;
+                ultimo.Proximo = primeiro;
             }
             this.tamanho++;
         }
@@ -68,7 +72,8 @@ namespace ListaDuplamenteEncadeada
             else
             {
                 primeiro = primeiro.Proximo;
-                primeiro.Anterior = null;
+                primeiro.Anterior = ultimo;
+                ultimo.Proximo = primeiro;
             }
             this.tamanho--;
         }
@@ -81,8 +86,12 @@ namespace ListaDuplamenteEncadeada
                 primeiro = ultimo = null;
             else
             {
-                ultimo.Anterior.Proximo = null;
+                // ultimo.Anterior.Proximo = primeiro;
+                // ultimo = ultimo.Anterior;
+
                 ultimo = ultimo.Anterior;
+                primeiro.Anterior = ultimo;
+                ultimo.Proximo = primeiro;
             }
             this.tamanho--;
         }
